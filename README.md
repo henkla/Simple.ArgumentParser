@@ -120,7 +120,7 @@ if (arguments.MissingCommands.Count > 0)
 ```
 
 #### Valid arguments
-Okay, we have now evaluated every aspect of the parsed arguments, except the good part - the _valid arguments_. The reside in a list of `Command`:s named - _yup, you guessed it_ - `ValidCommands`:
+Okay, we have now evaluated every aspect of the parsed arguments, except the good part - the _valid arguments_. They reside in a list of `Command`:s named - _yup, you guessed it_ - `ValidCommands`:
 
 ```
 // just for demo purpose
