@@ -1,8 +1,6 @@
 ﻿using Simple.ArgumentParser;
 using Type = Simple.ArgumentParser.Type;
 
-//args = ["--name", "Simple", "Programmer", "-a", "42", "-c", "false"];
-
 var arguments = new Parser()
     .Options
     .Add(name: "key",
