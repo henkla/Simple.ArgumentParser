@@ -5,40 +5,35 @@ using Type = Simple.ArgumentParser.Type;
 
 var arguments = new Parser()
     .Options
-        .Add(name: "name",
-            shortName: "n",
-            description: "Your actual name",
-            type: Type.Alpha,
-            required: true)
-        .Add(name: "just-a-flag",
-            shortName: "f",
-            description: "Just a simple flag",
-            type: Type.None,
-            required: false)
-        .Add(name: "is-cool",
-            shortName: "c",
-            description: "State whether you are cool or not",
-            type: Type.Boolean,
-            required: true)
-        .Add(name: "super-long-argument",
-            shortName: "s",
-            description: "This is a really long argument",
-            type: Type.Alpha,
-            required: false)
-        .Add(name: "this-is-an-even-longer-super-long-argument",
-            shortName: "t",
-            description: "This is a really long argument, on steroids",
-            type: Type.Alpha,
-            required: false)
-        .Add(name: "age",
-            shortName: "a",
-            description: "Your age",
-            type: Type.Integer,
-            required: true)
-        .AddHelp()
-        .AddVersion()
-        .AddDescription("A description of the application.")
-        .Build()
+    .Add(name: "key",
+        shortName: "k",
+        description: "An alphanumeric value",
+        type: Type.Alpha,
+        required: true)
+    .Add(name: "flag",
+        shortName: "f",
+        description: "Just a simple flag",
+        type: Type.None,
+        required: false)
+    .Add(name: "bool",
+        shortName: "b",
+        description: "A boolean value (true/false)",
+        type: Type.Boolean,
+        required: true)
+    .Add(name: "a-super-long-option",
+        shortName: "l",
+        description: "This is a really long option",
+        type: Type.Alpha,
+        required: false)
+    .Add(name: "number",
+        shortName: "n",
+        description: "An integer value",
+        type: Type.Integer,
+        required: true)
+    .AddHelp()
+    .AddVersion()
+    .AddDescription("A description of the application.")
+    .Build()
     .Parse(args);
 
 
