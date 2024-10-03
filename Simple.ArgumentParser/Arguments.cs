@@ -2,7 +2,7 @@ namespace Simple.ArgumentParser;
 
 public class Arguments
 {
-    public bool IsValid => InvalidCommands.Count > 0 || MissingCommands.Count > 0;
+    public bool IsValid => InvalidCommands.Count == 0 && MissingCommands.Count == 0;
 
     public List<Command> ValidCommands { get; set; } = [];
     public List<string> InvalidCommands { get; set; } = [];

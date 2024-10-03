@@ -1,6 +1,8 @@
 ﻿using Simple.ArgumentParser;
 using Type = Simple.ArgumentParser.Type;
 
+args = ["--key", "just", "a", "key", "--bool", "true", "--number", "42"];
+
 var arguments = new Parser()
     .Options
     .Add(name: "key",
@@ -62,6 +64,8 @@ if (arguments.MissingCommands.Count > 0)
     arguments.MissingCommands.ForEach(c => Console.WriteLine($"Required command is missing: {c}"));
     return -1;
 }
+
+arguments.ValidCommands.ForEach(c => Console.WriteLine($"Name: {c.Name}, Type: {c.Type}, Value: {c.Value}"));
 
 Console.WriteLine($"Hello, {arguments.ValidCommands.Single(c => c.Name == "name").Value}! You look " +
                   $"a lot older than {arguments.ValidCommands.Single(c => c.Name == "age").Value}. " +
