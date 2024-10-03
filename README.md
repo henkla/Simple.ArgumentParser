@@ -1,7 +1,22 @@
 # Simple.ArgumentParser
-This is a really simple, yet powerful and dynamic .NET command line argument parser library
+This is a really simple, yet powerful and dynamic .NET command line argument parser library.
+
+## Table of Contents
+1. [Quick guide](#quick-guide)
+   - [Basic setup](#basic-setup)
+   - [Usage](#usage)
+     - [Overall validity](#overall-validity)
+     - [Help section requested](#help-section-requested)
+     - [Application version requested](#application-version-requested)
+     - [Invalid arguments](#invalid-arguments)
+     - [Missing required arguments](#missing-required-arguments)
+     - [Valid arguments](#valid-arguments)
+2. [Technical information](#technical-information)
+3. [Known issues & limitations](#known-issues--limitations)
 
 ## Quick guide
+
+### Basic setup
 
 To use the parser, simply set it up to your liking, and pass the _raw arguments_ (the `string[] args`) as shown in the example setup below:
 ```
@@ -40,6 +55,8 @@ var arguments = new Parser()
 ```
 
 That's it, really.
+
+### Usage
 
 Now, let's try `--help`:
 ```
@@ -137,3 +154,11 @@ Name: number, Type: Integer, Value: 42
 ```
 
 That's basically it! 🙂
+
+## Technical information
+
+## Known issues & limitations
+
+There are some issues yet to be resolved:
+* there's currently no handling of conflicting argument names, be it long or short names. _Be aware of this!_
+* at the moment, short names are mandatory for each option. _They should be optional!_
