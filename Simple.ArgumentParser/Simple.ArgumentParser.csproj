@@ -13,6 +13,7 @@
         <PackageDescription>This is a really simple, yet powerful and dynamic .NET command line argument parser library.</PackageDescription>
         <PackageTags>args;parse;tool</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>../README.md</PackageReadmeFile>
     </PropertyGroup>
 
 </Project>
