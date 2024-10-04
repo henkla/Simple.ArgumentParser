@@ -29,7 +29,7 @@ jobs:
         run: dotnet test --configuration Release --no-restore
 
       - name: Pack NuGet
-        run: dotnet pack Simple.ArgumentParser.csproj --configuration Release --output ./nupkgs
+        run: dotnet pack Simple.ArgumentParser/Simple.ArgumentParser.csproj --configuration Release --output ./nupkgs
 
       - name: Publish NuGet
         run: dotnet nuget push ./nupkgs/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
