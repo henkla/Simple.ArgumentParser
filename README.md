@@ -61,7 +61,7 @@ That's it, really.
 
 Now, let's try `--help`:
 
-```cmd
+```console
 $ <executable> --help
 
 Description:
@@ -148,7 +148,7 @@ arguments.ValidCommands.ForEach(c => Console.WriteLine($"Name: {c.Name}, Type: {
 
 Given no bad or missing input (let's re-use the valid arguments a few paragraphs above), that would give the following output to the Console:
 
-```cmd
+```console
 $ <executable> --key just a key --bool true --number 42
 Name: key, Type: Alpha, Value: just a key
 Name: bool, Type: Boolean, Value: true
