@@ -5,7 +5,7 @@ This is a really simple, yet powerful and dynamic .NET command line argument par
 ![GitHub search hit counter](https://img.shields.io/github/search/henkla/Simple.ArgumentParser/goto)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/henkla/Simple.ArgumentParser/nuget-publish.yml)
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/henkla/Simple.ArgumentParser)
-[![NuGet version (SoftCircuits.Silk)](https://img.shields.io/nuget/v/Simple.ArgumentParser.svg?style=flat-square)](https://www.nuget.org/packages/Simple.ArgumentParser/)
+[![NuGet version (Simple.ArgumentParser)](https://img.shields.io/nuget/v/Simple.ArgumentParser.svg?style=flat-square)](https://www.nuget.org/packages/Simple.ArgumentParser/)
 ![NuGet Downloads](https://img.shields.io/nuget/dt/Simple.ArgumentParser)
 
 
