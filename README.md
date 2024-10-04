@@ -164,3 +164,4 @@ That's basically it! 🙂
 There are some issues yet to be resolved:
 * there's currently no handling of conflicting argument names, be it long or short names. _Be aware of this!_
 * at the moment, short names are mandatory for each option. _They should be optional!_
+* there's no NuGet at this moment, but it's in the working!
