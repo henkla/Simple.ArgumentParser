@@ -3,6 +3,7 @@ This is a really simple, yet powerful and dynamic .NET command line argument par
 
 ## Table of Contents
 1. [Quick guide](#quick-guide)
+   - [Key points](#key-points)
    - [Basic setup](#basic-setup)
    - [Usage](#usage)
      - [Overall validity](#overall-validity)
@@ -11,8 +12,16 @@ This is a really simple, yet powerful and dynamic .NET command line argument par
      - [Invalid arguments](#invalid-arguments)
      - [Missing required arguments](#missing-required-arguments)
      - [Valid arguments](#valid-arguments)
-2. [Technical information](#technical-information)
-3. [Known issues & limitations](#known-issues--limitations)
+3. [Technical information](#technical-information)
+4. [Known issues & limitations](#known-issues--limitations)
+
+## Key points
+* Super quick and easy
+* Supports long (`--long`) and short (`-s`) flags
+* Type validation
+* Dynamic help section included
+* Supports required arguments
+* Supports default values _**(not yet implemented)**_
 
 ## Quick guide
 
