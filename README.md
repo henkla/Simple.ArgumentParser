@@ -1,6 +1,13 @@
 # Simple.ArgumentParser
 This is a really simple, yet powerful and dynamic .NET command line argument parser library.
 
+![GitHub Repo stars](https://img.shields.io/github/stars/henkla/Simple.ArgumentParser)
+![GitHub search hit counter](https://img.shields.io/github/search/henkla/Simple.ArgumentParser/goto)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/henkla/Simple.ArgumentParser/nuget-publish.yml)
+[![NuGet version (SoftCircuits.Silk)](https://img.shields.io/nuget/v/Simple.ArgumentParser.svg?style=flat-square)](https://www.nuget.org/packages/Simple.ArgumentParser/)
+![NuGet Downloads](https://img.shields.io/nuget/dt/Simple.ArgumentParser)
+
+
 ## Table of Contents
 1. [Quick guide](#quick-guide)
    - [Key points](#key-points)
@@ -21,7 +28,8 @@ This is a really simple, yet powerful and dynamic .NET command line argument par
 * Type validation (see [Type.cs enum definition](Simple.ArgumentParser/Type.cs) for supported types)
 * Dynamic help section included
 * Supports required arguments
-* Supports default values _**(not yet implemented)**_
+* ~Supports default values~ _**(not yet implemented)**_
+* ~Suppoert customizable prefixes~ _**(not yet implemented)**_
 
 ## Quick guide
 
@@ -173,4 +181,4 @@ That's basically it! 🙂
 There are some issues yet to be resolved:
 * there's currently no handling of conflicting argument names, be it long or short names. _Be aware of this!_
 * at the moment, short names are mandatory for each option. _They should be optional!_
-* there's no NuGet at this moment, but it's in the working!
+* option prefix should be definable - currently only `--` and `-` are implemented
