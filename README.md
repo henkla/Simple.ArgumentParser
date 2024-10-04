@@ -19,7 +19,8 @@ This is a really simple, yet powerful and dynamic .NET command line argument par
 ### Basic setup
 
 To use the parser, simply set it up to your liking, and pass the _raw arguments_ (the `string[] args`) as shown in the example setup below:
-```
+
+```csharp
 var arguments = new Parser()
     .Options
         .Add(name: "key",
@@ -59,7 +60,8 @@ That's it, really.
 ### Usage
 
 Now, let's try `--help`:
-```
+
+```cmd
 $ <executable> --help
 
 Description:
@@ -91,7 +93,7 @@ For instance, you could evaluate the overall status by checking `arguments.IsVal
 #### Help section requested
 There is an easy way of finding out if a user has requested to print the help section (`--help` or `-h`). Check `arguments.ShowHelpRequested` for `true`, and take the opportunity to actually print the help section to the user:
 
-```
+```csharp
 // handle help command
 if (arguments.ShowHelpRequested)
 {
@@ -103,7 +105,7 @@ if (arguments.ShowHelpRequested)
 #### Application version requested
 It's equally easy to find out if user has requested the application version (`--version` or `-v`):
 
-```
+```csharp
 // handle version command
 if (arguments.ShowVersionRequested)
 {
@@ -115,7 +117,7 @@ if (arguments.ShowVersionRequested)
 #### Invalid arguments
 To find out if a user has provided invalid arguments (that is, invalid value for an option), you can check `arguments.InvalidCommands`, which is a list of strings representing a validation message for each invalid argument provided:
 
-```
+```csharp
 // handle invalid commands
 if (arguments.InvalidCommands.Count > 0)
 {
@@ -127,7 +129,7 @@ if (arguments.InvalidCommands.Count > 0)
 #### Missing required arguments
 To find out which - _if any_ - required arguments are missing, you can check `arguments.MissingCommands`, which is a list of strings representing the missing options:
 
-```
+```csharp
 // handle missing required commands
 if (arguments.MissingCommands.Count > 0)
 {
@@ -139,14 +141,14 @@ if (arguments.MissingCommands.Count > 0)
 #### Valid arguments
 Okay, we have now evaluated every aspect of the parsed arguments, except the good part - the _valid arguments_. They reside in a list of `Command`:s named - _yup, you guessed it_ - `ValidCommands`:
 
-```
+```csharp
 // just for demo purpose
 arguments.ValidCommands.ForEach(c => Console.WriteLine($"Name: {c.Name}, Type: {c.Type}, Value: {c.Value}"));
 ```
 
 Given no bad or missing input (let's re-use the valid arguments a few paragraphs above), that would give the following output to the Console:
 
-```
+```cmd
 $ <executable> --key just a key --bool true --number 42
 Name: key, Type: Alpha, Value: just a key
 Name: bool, Type: Boolean, Value: true
