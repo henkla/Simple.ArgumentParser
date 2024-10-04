@@ -17,8 +17,8 @@ This is a really simple, yet powerful and dynamic .NET command line argument par
 
 ## Key points
 * Super quick and easy
-* Supports long (`--long`) and short (`-s`) flags
-* Type validation
+* Supports long (`--long`) and short (`-s`) options
+* Type validation (see [Type.cs enum definition](Simple.ArgumentParser/Type.cs) for supported types)
 * Dynamic help section included
 * Supports required arguments
 * Supports default values _**(not yet implemented)**_
