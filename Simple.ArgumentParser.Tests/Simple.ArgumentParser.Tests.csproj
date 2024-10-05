@@ -20,4 +20,8 @@
         <Using Include="Xunit"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Simple.ArgumentParser\Simple.ArgumentParser.csproj" />
+    </ItemGroup>
+
 </Project>

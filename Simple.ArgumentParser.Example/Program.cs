@@ -1,74 +1,67 @@
 ﻿using Simple.ArgumentParser;
-using Type = Simple.ArgumentParser.Type;
 
-args = ["--key", "just", "a", "key", "--bool", "true", "--number", "42"];
+//args = ["-t", "hejsan", "-n", "3.1", "-b", "true", "-f", "-fl", "1.3" ];
 
-var arguments = new Parser()
-    .Options
-    .Add(name: "key",
-        shortName: "k",
-        description: "An alphanumeric value",
-        type: Type.Alpha,
-        required: true)
-    .Add(name: "flag",
-        shortName: "f",
-        description: "Just a simple flag",
-        type: Type.None,
+var arguments = new ArgumentParser()
+    .AddAlphaOption(name: "name",
+        shortName: 'n',
+        description: "Your full name",
         required: false)
-    .Add(name: "bool",
-        shortName: "b",
-        description: "A boolean value (true/false)",
-        type: Type.Boolean,
-        required: true)
-    .Add(name: "a-super-long-option",
-        shortName: "l",
-        description: "This is a really long option",
-        type: Type.Alpha,
+    .AddIntegerOption(name: "age",
+        shortName: 'a',
+        description: "Your age",
         required: false)
-    .Add(name: "number",
-        shortName: "n",
-        description: "An integer value",
-        type: Type.Integer,
-        required: true)
-    .AddHelp()
-    .AddVersion()
-    .AddDescription("A description of the application.")
-    .Build()
+    .AddEnumerateOption(name: "sex",
+        shortName: 's',
+        description: "Enter your sex (male/female/idiot)",
+        ["male", "female", "idiot"],
+        required: false)
+    .AddBooleanOption(name: "happy",
+        shortName: 'H',
+        description: "If you are happy or not",
+        required: false)
+    .AddHelpOption("A description of the application.")
+    .AddVersionOption("1.2.3-alpha")
     .Parse(args);
 
-
 // handle help command
-if (arguments.ShowHelpRequested)
+if (arguments.HelpRequested)
 {
     Console.WriteLine(arguments.HelpSection);
     return 1;
 }
 
 // handle version command
-if (arguments.ShowVersionRequested)
+if (arguments.VersionRequested)
 {
     Console.WriteLine(arguments.Version);
     return 2;
 }
 
 // handle invalid commands
-if (arguments.InvalidCommands.Count > 0)
+if (arguments.HasInvalidCommands)
 {
-    arguments.InvalidCommands.ForEach(Console.WriteLine);
-    return -2;
+    arguments.Invalid.ForEach(Console.WriteLine);
 }
 
 // handle missing commands
-if (arguments.MissingCommands.Count > 0)
+if (arguments.HasMissingCommands)
 {
-    arguments.MissingCommands.ForEach(c => Console.WriteLine($"Required command is missing: {c}"));
-    return -1;
+    arguments.Missing.ForEach(Console.WriteLine);
 }
 
-arguments.ValidCommands.ForEach(c => Console.WriteLine($"Name: {c.Name}, Type: {c.Type}, Value: {c.Value}"));
+// handle ignored commands
+if (arguments.HasIgnoredCommands)
+{
+    Console.WriteLine("Ignored commands:");
+    arguments.Ignored.ForEach(c => Console.WriteLine($"Name: {c.Name}, Type: {c.OptionType}, Value: {c.Value}"));
+}
 
-Console.WriteLine($"Hello, {arguments.ValidCommands.Single(c => c.Name == "name").Value}! You look " +
-                  $"a lot older than {arguments.ValidCommands.Single(c => c.Name == "age").Value}. " +
-                  $"Also, you are {(arguments.ValidCommands.Single(c => c.Name == "is-cool").Value == "true" ? "very" : "not very")} cool.");
-Console.WriteLine($"Flag: {arguments.ValidCommands.Any(c => c.Name == "just-a-flag")}");
+// handle valid commands
+if (arguments.IsValid && arguments.Any())
+{
+    Console.WriteLine("Valid commands:");
+    arguments.GetAll().ForEach(c => Console.WriteLine($"Name: {c.Name}, Type: {c.OptionType}, Value: {c.Value}"));
+}
+
 return 0;
