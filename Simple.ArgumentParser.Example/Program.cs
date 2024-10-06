@@ -1,24 +1,43 @@
 ﻿using Simple.ArgumentParser;
 
-//args = ["-t", "hejsan", "-n", "3.1", "-b", "true", "-f", "-fl", "1.3" ];
+args = [
+    "--alpha", "some-alpha", 
+    "--integer", "42", 
+    "--boolean", "true",
+    "--char", "c",
+    "--double", "3.12",
+    "--enumerate", "accepted-value-1",
+    "--flag"];
 
 var arguments = new ArgumentParser()
-    .AddAlphaOption(name: "name",
-        shortName: 'n',
-        description: "Your full name",
-        required: false)
-    .AddIntegerOption(name: "age",
+    .AddAlphaOption(name: "alpha",
         shortName: 'a',
-        description: "Your age",
+        description: "An alphanumeric option",
         required: false)
-    .AddEnumerateOption(name: "sex",
-        shortName: 's',
-        description: "Enter your sex (male/female/idiot)",
-        ["male", "female", "idiot"],
+    .AddIntegerOption(name: "integer",
+        shortName: 'i',
+        description: "An integer option",
         required: false)
-    .AddBooleanOption(name: "happy",
-        shortName: 'H',
-        description: "If you are happy or not",
+    .AddBooleanOption(name: "boolean",
+        shortName: 'b',
+        description: "A boolean option",
+        required: false)
+    .AddCharOption(name: "char",
+        shortName: 'c',
+        description: "A char option",
+        required: false)
+    .AddDoubleOption(name: "double",
+        shortName: 'd',
+        description: "A double option",
+        required: false)
+    .AddEnumerateOption(name: "enumerate",
+        shortName: 'e',
+        description: "An enumerate option",
+        ["accepted-value-1", "accepted-value-2"],
+        required: false)
+    .AddFlagOption(name: "flag",
+        shortName: 'f',
+        description: "A flag option",
         required: false)
     .AddHelpOption("A description of the application.")
     .AddVersionOption("1.2.3-alpha")
@@ -63,5 +82,9 @@ if (arguments.IsValid && arguments.Any())
     Console.WriteLine("Valid commands:");
     arguments.GetAll().ForEach(c => Console.WriteLine($"Name: {c.Name}, Type: {c.OptionType}, Value: {c.Value}"));
 }
+
+// handle valid commands
+var specificCommand = arguments.Get("alpha");
+Console.WriteLine($"Name: {specificCommand.Name}, Type: {specificCommand.OptionType}, Value: {specificCommand.Value}");
 
 return 0;

@@ -2,7 +2,7 @@ namespace Simple.ArgumentParser;
 
 internal static class Constants
 {
-    internal const string Pattern = @"(?<key>--\w+|-[a-zA-Z])(?:\s+(?<value>[^--]+))?(?=\s+--|\s+-|$)";
+    internal const string Pattern = @"(?<key>--\w+|-[a-zA-Z])(?:\s+(?<value>(?!-[-\w])[^\s]+))?";
     
     internal const string LongPrefix = "--";
     internal const string ShortPrefix = "-";

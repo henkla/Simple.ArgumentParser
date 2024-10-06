@@ -26,9 +26,19 @@ This is a really simple, yet powerful and dynamic .NET command line argument par
 ## Key points
 * Super quick and easy
 * Supports long (`--long`) and short (`-s`) options
-* Type validation (see [Type.cs enum definition](Simple.ArgumentParser/Type.cs) for supported types)
-* Dynamic help section included
+* Type validation:
+  - Alphanumeric 
+  - Integer
+  - Boolean
+  - Char
+  - Double
+  - Enumerated values (basically, you decide what is accepted and not)
+  - Flag (arguments without value)
+* Help section dynamically generatred
 * Supports required arguments
+* Catches invalid arguments
+* Catches missing arguments
+* Catches ignored arguments
 * ~Supports default values~ _**(not yet implemented)**_
 * ~Suppoert customizable prefixes~ _**(not yet implemented)**_
 
@@ -39,37 +49,38 @@ This is a really simple, yet powerful and dynamic .NET command line argument par
 To use the parser, simply set it up to your liking, and pass the _raw arguments_ (the `string[] args`) as shown in the example setup below:
 
 ```csharp
-var arguments = new Parser()
-    .Options
-        .Add(name: "key",
-            shortName: "k",
-            description: "An alphanumeric value",
-            type: Type.Alpha,
-            required: true)
-        .Add(name: "flag",
-            shortName: "f",
-            description: "Just a simple flag",
-            type: Type.None,
-            required: false)
-        .Add(name: "bool",
-            shortName: "b",
-            description: "A boolean value (true/false)",
-            type: Type.Boolean,
-            required: true)
-        .Add(name: "a-super-long-option",
-            shortName: "l",
-            description: "This is a really long option",
-            type: Type.Alpha,
-            required: false)
-        .Add(name: "number",
-            shortName: "n",
-            description: "An integer value",
-            type: Type.Integer,
-            required: true)
-        .AddHelp()
-        .AddVersion()
-        .AddDescription("A description of the application.")
-        .Build()
+var arguments = new ArgumentParser()
+    .AddAlphaOption(name: "alpha",
+        shortName: 'a',
+        description: "An alphanumeric option",
+        required: false)
+    .AddIntegerOption(name: "integer",
+        shortName: 'i',
+        description: "An integer option",
+        required: false)
+    .AddBooleanOption(name: "boolean",
+        shortName: 'b',
+        description: "A boolean option",
+        required: false)
+    .AddCharOption(name: "char",
+        shortName: 'c',
+        description: "A char option",
+        required: false)
+    .AddDoubleOption(name: "double",
+        shortName: 'd',
+        description: "A double option",
+        required: false)
+    .AddEnumerateOption(name: "enumerate",
+        shortName: 'e',
+        description: "An enumerate option",
+        ["accepted-value-1", "accepted-value-2"],
+        required: false)
+    .AddFlagOption(name: "flag",
+        shortName: 'f',
+        description: "A flag option",
+        required: false)
+    .AddHelpOption("A description of the application.")
+    .AddVersionOption("1.2.3-alpha")
     .Parse(args);
 ```
 
@@ -77,31 +88,36 @@ That's it, really.
 
 ### Usage
 
+#### Dynamic help section
+
 Now, let's try `--help`:
 
 ```console
-$ <executable> --help
+$ Simple.ArgumentParser.Example.exe --help
 
 Description:
-    A description of the application.
+  A description of the application.
 
 Usage:
-    <executable> [OPTIONS]
+  Simple.ArgumentParser.Example.exe [OPTIONS]
 
 Options:
-    --key                  -k  <Alpha>    (required)  An alphanumeric value
-    --flag                 -f                         Just a simple flag
-    --bool                 -b  <Boolean>  (required)  A boolean value (true/false)
-    --a-super-long-option  -l  <Alpha>                This is a really long option
-    --number               -n  <Integer>  (required)  An integer value
-    --help                 -h                         Show help section
-    --version              -v                         Show version information
+  --alpha      -a  <Alpha>                          An alphanumeric option
+  --integer    -i  <Integer>                        An integer option
+  --boolean    -b  <Boolean>                        A boolean option
+  --char       -c  <Char>                           A char option
+  --double     -d  <Double>                         A double option
+  --enumerate  -e  <Enumerate>                      An enumerate option [accepted-value-1/accepted-value-2]
+  --flag       -f                                   A flag option
+  --help       -h                                   Show this help section
+  --version    -v                                   Show application version
+
 
 ```
 
 Okay, that looks simple enough. Let's try using it with some real arguments:
 
-`$ <executable> --key just a key --bool true --number 42`
+`$ Simple.ArgumentParser.Example.exe --alpha some-alpha --integer 42 --boolean true --char c double 3.12 --enumerate accepted-value-1 --flag`
 
 Now, let's access the parsed arguments. There are many ways to interact with the parsed result. 
 
@@ -109,11 +125,11 @@ Now, let's access the parsed arguments. There are many ways to interact with the
 For instance, you could evaluate the overall status by checking `arguments.IsValid` (returns `false` if either _required arguments are missing_, or _invalid value has been provided_ for an argument - otherwise `true`).
 
 #### Help section requested
-There is an easy way of finding out if a user has requested to print the help section (`--help` or `-h`). Check `arguments.ShowHelpRequested` for `true`, and take the opportunity to actually print the help section to the user:
+There is an easy way of finding out if a user has requested to print the help section (`--help` or `-h`). Check `arguments.HelpRequested` for `true`, and take the opportunity to actually print the help section to the user:
 
 ```csharp
 // handle help command
-if (arguments.ShowHelpRequested)
+if (arguments.HelpRequested)
 {
     Console.WriteLine(arguments.HelpSection);
     return;
@@ -125,7 +141,7 @@ It's equally easy to find out if user has requested the application version (`--
 
 ```csharp
 // handle version command
-if (arguments.ShowVersionRequested)
+if (arguments.VersionRequested)
 {
     Console.WriteLine(arguments.Version);
     return;
@@ -133,35 +149,52 @@ if (arguments.ShowVersionRequested)
 ```
 
 #### Invalid arguments
-To find out if a user has provided invalid arguments (that is, invalid value for an option), you can check `arguments.InvalidCommands`, which is a list of strings representing a validation message for each invalid argument provided:
+To find out if a user has provided invalid arguments (that is, invalid value for an option), you can check `arguments.HasInvalidCommands`. Returns `true` if and invalid arguments has been provided, otherwise `false`. To access the invalid commands, check `arguments.Invalid` which is a list of strings representing a validation message for each invalid argument provided:
 
 ```csharp
 // handle invalid commands
-if (arguments.InvalidCommands.Count > 0)
+if (arguments.HasInvalidCommands)
 {
-    arguments.InvalidCommands.ForEach(Console.WriteLine);
+    arguments.Invalid.ForEach(Console.WriteLine);
     return;
 }
 ```
 
 #### Missing required arguments
-To find out which - _if any_ - required arguments are missing, you can check `arguments.MissingCommands`, which is a list of strings representing the missing options:
+To find out which - _if any_ - required arguments are missing, you can check `arguments.HasMissingCommands`. Returns `true` if there are any required arguments not provided, otherwise `false`. To access the the missing commands, check `arguments.Missing` which is a list of strings representing the missing arguments:
 
 ```csharp
 // handle missing required commands
-if (arguments.MissingCommands.Count > 0)
+if (arguments.HasMissingCommands)
 {
-    arguments.MissingCommands.ForEach(c => Console.WriteLine($"Required command is missing: {c}"));
+    arguments.Missing.ForEach(Console.WriteLine);
     return;
 }
 ```
 
-#### Valid arguments
+#### Ignored commands
+To find out if there are arguments provided that aren't expected (and therefore ignored), you can check `arguments.HasIgnoredCommands`. Returns `true` if there are any ignored arguments provided, otherwise `false`. To access the the ignored commands, check `arguments.Ignored` which is a list of strings representing the ignored arguments:
+
+```csharp
+// handle missing required commands
+if (arguments.HasIgnoredCommands)
+{
+    Console.WriteLine("Ignored commands:");
+    arguments.Ignored.ForEach(c => Console.WriteLine($"Name: {c.Name}, Type: {c.OptionType}, Value: {c.Value}"));
+    return;
+}
+```
+
+#### Valid commands
 Okay, we have now evaluated every aspect of the parsed arguments, except the good part - the _valid arguments_. They reside in a list of `Command`:s named - _yup, you guessed it_ - `ValidCommands`:
 
 ```csharp
-// just for demo purpose
-arguments.ValidCommands.ForEach(c => Console.WriteLine($"Name: {c.Name}, Type: {c.Type}, Value: {c.Value}"));
+// handle valid commands
+if (arguments.IsValid && arguments.Any())
+{
+    Console.WriteLine("Valid commands:");
+    arguments.GetAll().ForEach(c => Console.WriteLine($"Name: {c.Name}, Type: {c.OptionType}, Value: {c.Value}"));
+}
 ```
 
 Given no bad or missing input (let's re-use the valid arguments a few paragraphs above), that would give the following output to the Console:
@@ -173,6 +206,20 @@ Name: bool, Type: Boolean, Value: true
 Name: number, Type: Integer, Value: 42
 ```
 
+#### Get specific command
+
+There's a simple way to retrieve a specific command:
+```csharp
+var specificCommand = arguments.Get("alpha");
+Console.WriteLine($"Name: {specificCommand.Name}, Type: {specificCommand.OptionType}, Value: {specificCommand.Value}");
+```
+
+If that argument is provided, according to the example above, that would give:
+
+```console
+Name: alpha, Type: Alpha, Value: some-alpha
+```
+
 That's basically it! 🙂
 
 ## Technical information
@@ -180,6 +227,6 @@ That's basically it! 🙂
 ## Known issues & limitations
 
 There are some issues yet to be resolved:
-* there's currently no handling of conflicting argument names, be it long or short names. _Be aware of this!_
+* ~there's currently no handling of conflicting argument names, be it long or short names. _Be aware of this!_~ _***RESOLVED***_
 * at the moment, short names are mandatory for each option. _They should be optional!_
-* option prefix should be definable - currently only `--` and `-` are implemented
+* option prefix should be customizable - currently only `--` and `-` are implemented

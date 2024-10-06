@@ -4,6 +4,7 @@ internal class EnumerateOption : Option
 {
     private readonly string[] _accepted;
     protected internal override OptionType Type => OptionType.Enumerate;
+    protected internal IEnumerable<string> AcceptedValues => _accepted;
     
     public EnumerateOption(string name, char shortName, string description, string[] accepted, OptionSettings? settings = null) 
         : base(name, shortName, description, settings)

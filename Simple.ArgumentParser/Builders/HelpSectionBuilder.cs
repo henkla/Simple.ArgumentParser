@@ -31,7 +31,7 @@ internal class HelpSectionBuilder
 
             stringBuilder.Append($"{key} {type}".PadRight(40, ' '));
             stringBuilder.Append($"{(option.Settings.Required ? "(required)" : "").PadRight(12, ' ')}");
-            stringBuilder.Append(option.Description);
+            stringBuilder.Append(option.Description + (option.Type == OptionType.Enumerate ? $" [{string.Join("/", (option as EnumerateOption).AcceptedValues)}]" : string.Empty));
             stringBuilder.AppendLine();
         }
 
