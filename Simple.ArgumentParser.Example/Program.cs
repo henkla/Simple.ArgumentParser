@@ -1,74 +1,90 @@
 ﻿using Simple.ArgumentParser;
-using Type = Simple.ArgumentParser.Type;
 
-args = ["--key", "just", "a", "key", "--bool", "true", "--number", "42"];
+args = [
+    "--alpha", "some-alpha", 
+    "--integer", "42", 
+    "--boolean", "true",
+    "--char", "c",
+    "--double", "3.12",
+    "--enumerate", "accepted-value-1",
+    "--flag"];
 
-var arguments = new Parser()
-    .Options
-    .Add(name: "key",
-        shortName: "k",
-        description: "An alphanumeric value",
-        type: Type.Alpha,
-        required: true)
-    .Add(name: "flag",
-        shortName: "f",
-        description: "Just a simple flag",
-        type: Type.None,
+var arguments = new ArgumentParser()
+    .AddAlphaOption(name: "alpha",
+        shortName: 'a',
+        description: "An alphanumeric option",
         required: false)
-    .Add(name: "bool",
-        shortName: "b",
-        description: "A boolean value (true/false)",
-        type: Type.Boolean,
-        required: true)
-    .Add(name: "a-super-long-option",
-        shortName: "l",
-        description: "This is a really long option",
-        type: Type.Alpha,
+    .AddIntegerOption(name: "integer",
+        shortName: 'i',
+        description: "An integer option",
         required: false)
-    .Add(name: "number",
-        shortName: "n",
-        description: "An integer value",
-        type: Type.Integer,
-        required: true)
-    .AddHelp()
-    .AddVersion()
-    .AddDescription("A description of the application.")
-    .Build()
+    .AddBooleanOption(name: "boolean",
+        shortName: 'b',
+        description: "A boolean option",
+        required: false)
+    .AddCharOption(name: "char",
+        shortName: 'c',
+        description: "A char option",
+        required: false)
+    .AddDoubleOption(name: "double",
+        shortName: 'd',
+        description: "A double option",
+        required: false)
+    .AddEnumerateOption(name: "enumerate",
+        shortName: 'e',
+        description: "An enumerate option",
+        ["accepted-value-1", "accepted-value-2"],
+        required: false)
+    .AddFlagOption(name: "flag",
+        shortName: 'f',
+        description: "A flag option",
+        required: false)
+    .AddHelpOption("A description of the application.")
+    .AddVersionOption("1.2.3-alpha")
     .Parse(args);
 
-
 // handle help command
-if (arguments.ShowHelpRequested)
+if (arguments.HelpRequested)
 {
     Console.WriteLine(arguments.HelpSection);
     return 1;
 }
 
 // handle version command
-if (arguments.ShowVersionRequested)
+if (arguments.VersionRequested)
 {
     Console.WriteLine(arguments.Version);
     return 2;
 }
 
 // handle invalid commands
-if (arguments.InvalidCommands.Count > 0)
+if (arguments.HasInvalidCommands)
 {
-    arguments.InvalidCommands.ForEach(Console.WriteLine);
-    return -2;
+    arguments.Invalid.ForEach(Console.WriteLine);
 }
 
 // handle missing commands
-if (arguments.MissingCommands.Count > 0)
+if (arguments.HasMissingCommands)
 {
-    arguments.MissingCommands.ForEach(c => Console.WriteLine($"Required command is missing: {c}"));
-    return -1;
+    arguments.Missing.ForEach(Console.WriteLine);
 }
 
-arguments.ValidCommands.ForEach(c => Console.WriteLine($"Name: {c.Name}, Type: {c.Type}, Value: {c.Value}"));
+// handle ignored commands
+if (arguments.HasIgnoredCommands)
+{
+    Console.WriteLine("Ignored commands:");
+    arguments.Ignored.ForEach(c => Console.WriteLine($"Name: {c.Name}, Type: {c.OptionType}, Value: {c.Value}"));
+}
 
-Console.WriteLine($"Hello, {arguments.ValidCommands.Single(c => c.Name == "name").Value}! You look " +
-                  $"a lot older than {arguments.ValidCommands.Single(c => c.Name == "age").Value}. " +
-                  $"Also, you are {(arguments.ValidCommands.Single(c => c.Name == "is-cool").Value == "true" ? "very" : "not very")} cool.");
-Console.WriteLine($"Flag: {arguments.ValidCommands.Any(c => c.Name == "just-a-flag")}");
+// handle valid commands
+if (arguments.IsValid && arguments.Any())
+{
+    Console.WriteLine("Valid commands:");
+    arguments.GetAll().ForEach(c => Console.WriteLine($"Name: {c.Name}, Type: {c.OptionType}, Value: {c.Value}"));
+}
+
+// handle valid commands
+var specificCommand = arguments.Get("alpha");
+Console.WriteLine($"Name: {specificCommand.Name}, Type: {specificCommand.OptionType}, Value: {specificCommand.Value}");
+
 return 0;
