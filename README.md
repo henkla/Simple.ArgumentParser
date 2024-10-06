@@ -14,12 +14,14 @@ This is a really simple, yet powerful and dynamic .NET command line argument par
    - [Key points](#key-points)
    - [Basic setup](#basic-setup)
    - [Usage](#usage)
+     - [Dynamic help section](#dynamic-help-section)
      - [Overall validity](#overall-validity)
      - [Help section requested](#help-section-requested)
      - [Application version requested](#application-version-requested)
-     - [Invalid arguments](#invalid-arguments)
-     - [Missing required arguments](#missing-required-arguments)
-     - [Valid arguments](#valid-arguments)
+     - [Invalid commands](#invalid-commands)
+     - [Missing required commands](#missing-required-commands)
+     - [Valid commands](#valid-commands)
+     - [Get specific command](#get-specific-command)
 3. [Technical information](#technical-information)
 4. [Known issues & limitations](#known-issues--limitations)
 
@@ -148,7 +150,7 @@ if (arguments.VersionRequested)
 }
 ```
 
-#### Invalid arguments
+#### Invalid commands
 To find out if a user has provided invalid arguments (that is, invalid value for an option), you can check `arguments.HasInvalidCommands`. Returns `true` if and invalid arguments has been provided, otherwise `false`. To access the invalid commands, check `arguments.Invalid` which is a list of strings representing a validation message for each invalid argument provided:
 
 ```csharp
@@ -160,7 +162,7 @@ if (arguments.HasInvalidCommands)
 }
 ```
 
-#### Missing required arguments
+#### Missing required commands
 To find out which - _if any_ - required arguments are missing, you can check `arguments.HasMissingCommands`. Returns `true` if there are any required arguments not provided, otherwise `false`. To access the the missing commands, check `arguments.Missing` which is a list of strings representing the missing arguments:
 
 ```csharp
