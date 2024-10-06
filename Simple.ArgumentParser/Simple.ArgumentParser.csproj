@@ -8,7 +8,7 @@
 
     <PropertyGroup>
         <PackageId>Simple.ArgumentParser</PackageId>
-        <Version>1.1.3</Version>
+        <Version>1.1.5</Version>
         <Authors>Henrik Larsson</Authors>
         <PackageProjectUrl>https://github.com/henkla/Simple.ArgumentParser</PackageProjectUrl>
         <RepositoryUrl>https://github.com/henkla/Simple.ArgumentParser</RepositoryUrl>
