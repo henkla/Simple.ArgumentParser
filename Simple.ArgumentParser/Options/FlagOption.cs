@@ -11,9 +11,9 @@ internal class FlagOption : Option
 
     protected internal override bool ValueIsValid(string value, out string message)
     {
-        message = value != string.Empty
-            ? $"Argument '{Name}' is invalid - expected no value at all'"
-            : string.Empty;
+        message = string.IsNullOrWhiteSpace(value)
+            ? string.Empty
+            : $"Argument '{Name}' is invalid - expected no value at all'";
 
         return message == string.Empty;
     }
