@@ -200,10 +200,14 @@ if (arguments.IsValid && arguments.Any())
 Given no bad or missing input (let's re-use the valid arguments a few paragraphs above), that would give the following output to the Console:
 
 ```console
-$ <executable> --key just a key --bool true --number 42
-Name: key, Type: Alpha, Value: just a key
-Name: bool, Type: Boolean, Value: true
-Name: number, Type: Integer, Value: 42
+Valid commands:
+Name: alpha, Type: Alpha, Value: some-alpha
+Name: integer, Type: Integer, Value: 42
+Name: boolean, Type: Boolean, Value: true
+Name: char, Type: Char, Value: c
+Name: double, Type: Double, Value: 3.12
+Name: enumerate, Type: Enumerate, Value: accepted-value-1
+Name: flag, Type: Flag, Value:
 ```
 
 #### Get specific command
