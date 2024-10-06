@@ -10,7 +10,7 @@ public class Args
     public bool VersionRequested { get; internal set; }
 
 
-    public List<Command> Valid { get; set; } = [];
+    public List<Command> Valid { get; } = [];
     public List<Command> Ignored { get; } = [];
     public List<string> Missing { get; } = [];
     public List<string> Invalid { get; } = [];

@@ -23,7 +23,7 @@ internal class BooleanOption : Option
             return message == string.Empty;
         }
         
-        message = value is "1" or "0" or "true" or "false"
+        message = value.ToLower() is "1" or "0" or "true" or "false"
             ? string.Empty
             : $"Value '{value}' is invalid for Argument '{Name}' - expected a value of type '{Type}' [true or false, 1 or 0]";
 

@@ -43,6 +43,7 @@ public class ArgumentParserTests
         Assert.False(result.HasMissingCommands);
         Assert.False(result.HasIgnoredCommands);
         Assert.False(result.HasInvalidCommands);
+        Assert.Equal(result.Valid.Count, 9);
         Assert.NotNull(result.Version);
         Assert.NotEmpty(result.Version);
         Assert.NotNull(result.HelpSection);
@@ -71,6 +72,8 @@ public class ArgumentParserTests
         Assert.True(result.IsValid);
         Assert.False(result.HasMissingCommands);
         Assert.True(result.HasIgnoredCommands);
+        var ignored = Assert.Single(result.Ignored);
+        Assert.Equal(ignored.Name, "help");
         Assert.False(result.HasInvalidCommands);
         Assert.Null(result.Version);
         Assert.Null(result.HelpSection);

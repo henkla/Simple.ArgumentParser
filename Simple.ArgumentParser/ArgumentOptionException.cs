@@ -1,8 +1,3 @@
 namespace Simple.ArgumentParser;
 
-public class ArgumentOptionException : Exception
-{
-    public ArgumentOptionException(string message) : base(message)
-    {
-    }
-}
+public class ArgumentOptionException(string message) : Exception(message);

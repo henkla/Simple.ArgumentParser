@@ -82,8 +82,6 @@ public class ArgumentParser
 
     public Args Parse(string[] args)
     {
-        // if (_options.Count == 0) return new Args();
-
         foreach (Match match in Regex.Matches(string.Join(" ", args), Constants.Pattern))
         {
             var kv = GetKeyValue(match);
@@ -148,7 +146,7 @@ public class ArgumentParser
 
         if (_validCommands.Count > 0)
         {
-            parsedArguments.Valid = _validCommands;
+            parsedArguments.Valid.AddRange(_validCommands);
         }
 
         return parsedArguments;

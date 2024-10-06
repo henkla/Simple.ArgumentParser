@@ -18,7 +18,9 @@ public class BooleanOptionTests
 
     [Theory]
     [InlineData("true")]
+    [InlineData("TRUE")]
     [InlineData("false")]
+    [InlineData("FALSE")]
     [InlineData("1")]
     [InlineData("0")]
     public void ValueIsValid_should_return_true_with_strict_off(string inlineData)
@@ -40,6 +42,8 @@ public class BooleanOptionTests
     [Theory]
     [InlineData("1")]
     [InlineData("0")]
+    [InlineData("TRUE")]
+    [InlineData("FALSE")]
     public void ValueIsValid_should_return_false_with_strict_on(string inlineData)
     {
         // arrange
